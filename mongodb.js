@@ -13,7 +13,7 @@ const initDb = async () => {
 
     await client.connect();
 
-    database = client.db('artisanDB');
+    database = client.db('serviceprovider');
 
     console.log('Connected to MongoDB');
 
