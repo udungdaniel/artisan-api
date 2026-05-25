@@ -1,0 +1,80 @@
+### =========================
+### ARTISANS ROUTES
+### =========================
+
+### Get All Artisans
+GET http://localhost:3000/artisans
+
+### Get Single Artisan
+GET http://localhost:3000/artisans/6a148b4772f919cede0cd3ed
+
+### Create Artisan
+POST http://localhost:3000/artisans
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@gmail.com",
+  "phone": "08012345678",
+  "service": "Electrician",
+  "location": "Lagos",
+  "experience": 5,
+  "available": true
+}
+
+### Update Artisan
+PUT http://localhost:3000/artisans/6a148b4772f919cede0cd3ed
+Content-Type: application/json
+
+{
+  "firstName": "John Updated",
+  "lastName": "Doe",
+  "email": "johnupdated@gmail.com",
+  "phone": "08087654321",
+  "service": "Plumber",
+  "location": "Abuja",
+  "experience": 7,
+  "available": false
+}
+
+### Delete Artisan
+DELETE http://localhost:3000/artisans/6a148b4772f919cede0cd3ed
+
+
+### =========================
+### BOOKINGS ROUTES
+### =========================
+
+### Get All Bookings
+GET http://localhost:3000/bookings
+
+### Get Single Booking
+GET http://localhost:3000/bookings/6a148b6972f919cede0cd3f0
+
+### Create Booking
+POST http://localhost:3000/bookings
+Content-Type: application/json
+
+{
+  "customerName": "Daniel Alfred",
+  "customerPhone": "07088152202",
+  "artisanId": "PUT_ARTISAN_ID_HERE",
+  "serviceDate": "2026-06-01",
+  "status": "Pending"
+}
+
+### Update Booking
+PUT http://localhost:3000/bookings/6a148b6972f919cede0cd3f0
+Content-Type: application/json
+
+{
+  "customerName": "Daniel Alfred Updated",
+  "customerPhone": "07039036953",
+  "artisanId": "PUT_ARTISAN_ID_HERE",
+  "serviceDate": "2026-06-10",
+  "status": "Completed"
+}
+
+### Delete Booking
+DELETE http://localhost:3000/bookings/6a148b6972f919cede0cd3f0
