@@ -23,6 +23,14 @@ const getAll = async (req, res) => {
 // GET SINGLE ARTISAN
 const getSingle = async (req, res) => {
   try {
+
+    // VALIDATE ID
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: 'Invalid artisan ID'
+      });
+    }
+
     const artisanId = new ObjectId(req.params.id);
 
     const db = await mongodb.initDb();
@@ -42,6 +50,7 @@ const getSingle = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     res.status(200).json(artisan[0]);
+
   } catch (err) {
     res.status(500).json({
       message: err.message
@@ -52,6 +61,7 @@ const getSingle = async (req, res) => {
 // CREATE ARTISAN
 const createArtisan = async (req, res) => {
   try {
+
     const {
       firstName,
       lastName,
@@ -106,6 +116,7 @@ const createArtisan = async (req, res) => {
         message: 'Failed to create artisan'
       });
     }
+
   } catch (err) {
     res.status(500).json({
       message: err.message
@@ -116,6 +127,14 @@ const createArtisan = async (req, res) => {
 // UPDATE ARTISAN
 const updateArtisan = async (req, res) => {
   try {
+
+    // VALIDATE ID
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: 'Invalid artisan ID'
+      });
+    }
+
     const artisanId = new ObjectId(req.params.id);
 
     const {
@@ -170,6 +189,7 @@ const updateArtisan = async (req, res) => {
         message: 'Failed to update artisan'
       });
     }
+
   } catch (err) {
     res.status(500).json({
       message: err.message
@@ -180,6 +200,14 @@ const updateArtisan = async (req, res) => {
 // DELETE ARTISAN
 const deleteArtisan = async (req, res) => {
   try {
+
+    // VALIDATE ID
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: 'Invalid artisan ID'
+      });
+    }
+
     const artisanId = new ObjectId(req.params.id);
 
     const db = await mongodb.initDb();
@@ -197,6 +225,7 @@ const deleteArtisan = async (req, res) => {
         message: 'Failed to delete artisan'
       });
     }
+
   } catch (err) {
     res.status(500).json({
       message: err.message

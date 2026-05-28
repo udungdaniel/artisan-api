@@ -4,6 +4,7 @@ const { ObjectId } = require('mongodb');
 // GET ALL BOOKINGS
 const getAll = async (req, res) => {
   try {
+
     const db = await mongodb.initDb();
 
     const result = await db.collection('bookings').find();
@@ -13,6 +14,7 @@ const getAll = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     res.status(200).json(bookings);
+
   } catch (err) {
     res.status(500).json({
       message: err.message
@@ -23,6 +25,14 @@ const getAll = async (req, res) => {
 // GET SINGLE BOOKING
 const getSingle = async (req, res) => {
   try {
+
+    // VALIDATE ID
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: 'Invalid booking ID'
+      });
+    }
+
     const bookingId = new ObjectId(req.params.id);
 
     const db = await mongodb.initDb();
@@ -42,6 +52,7 @@ const getSingle = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     res.status(200).json(booking[0]);
+
   } catch (err) {
     res.status(500).json({
       message: err.message
@@ -52,6 +63,7 @@ const getSingle = async (req, res) => {
 // CREATE BOOKING
 const createBooking = async (req, res) => {
   try {
+
     const {
       customerName,
       customerPhone,
@@ -97,6 +109,7 @@ const createBooking = async (req, res) => {
         message: 'Failed to create booking'
       });
     }
+
   } catch (err) {
     res.status(500).json({
       message: err.message
@@ -107,6 +120,14 @@ const createBooking = async (req, res) => {
 // UPDATE BOOKING
 const updateBooking = async (req, res) => {
   try {
+
+    // VALIDATE ID
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: 'Invalid booking ID'
+      });
+    }
+
     const bookingId = new ObjectId(req.params.id);
 
     const {
@@ -152,6 +173,7 @@ const updateBooking = async (req, res) => {
         message: 'Failed to update booking'
       });
     }
+
   } catch (err) {
     res.status(500).json({
       message: err.message
@@ -162,6 +184,14 @@ const updateBooking = async (req, res) => {
 // DELETE BOOKING
 const deleteBooking = async (req, res) => {
   try {
+
+    // VALIDATE ID
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: 'Invalid booking ID'
+      });
+    }
+
     const bookingId = new ObjectId(req.params.id);
 
     const db = await mongodb.initDb();
@@ -179,6 +209,7 @@ const deleteBooking = async (req, res) => {
         message: 'Failed to delete booking'
       });
     }
+
   } catch (err) {
     res.status(500).json({
       message: err.message
