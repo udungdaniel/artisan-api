@@ -1,8 +1,16 @@
 const express = require('express');
+const auth = require('../middleware/authenticate');
 
 const router = express.Router();
 
 const artisansController = require('../controllers/artisans');
+
+/**
+ * @swagger
+ * tags:
+ *   name: Artisans
+ *   description: Artisan management routes
+ */
 
 /**
  * @swagger
@@ -31,6 +39,8 @@ router.get('/', artisansController.getAll);
  *     responses:
  *       200:
  *         description: Success
+ *       404:
+ *         description: Artisan not found
  */
 router.get('/:id', artisansController.getSingle);
 
@@ -40,6 +50,8 @@ router.get('/:id', artisansController.getSingle);
  *   post:
  *     summary: Create artisan
  *     tags: [Artisans]
+ *     security:
+ *       - oauth2: []
  *     requestBody:
  *       required: true
  *       content:
@@ -75,8 +87,16 @@ router.get('/:id', artisansController.getSingle);
  *     responses:
  *       201:
  *         description: Artisan created successfully
+ *       400:
+ *         description: Validation failed
+ *       401:
+ *         description: Unauthorized
  */
-router.post('/', artisansController.createArtisan);
+router.post(
+  '/',
+  auth.isAuthenticated,
+  artisansController.createArtisan
+);
 
 /**
  * @swagger
@@ -84,6 +104,8 @@ router.post('/', artisansController.createArtisan);
  *   put:
  *     summary: Update artisan
  *     tags: [Artisans]
+ *     security:
+ *       - oauth2: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -125,8 +147,16 @@ router.post('/', artisansController.createArtisan);
  *     responses:
  *       204:
  *         description: Artisan updated successfully
+ *       400:
+ *         description: Validation failed
+ *       401:
+ *         description: Unauthorized
  */
-router.put('/:id', artisansController.updateArtisan);
+router.put(
+  '/:id',
+  auth.isAuthenticated,
+  artisansController.updateArtisan
+);
 
 /**
  * @swagger
@@ -134,6 +164,8 @@ router.put('/:id', artisansController.updateArtisan);
  *   delete:
  *     summary: Delete artisan
  *     tags: [Artisans]
+ *     security:
+ *       - oauth2: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -142,8 +174,14 @@ router.put('/:id', artisansController.updateArtisan);
  *           type: string
  *     responses:
  *       200:
- *         description: Artisan deleted
+ *         description: Artisan deleted successfully
+ *       401:
+ *         description: Unauthorized
  */
-router.delete('/:id', artisansController.deleteArtisan);
+router.delete(
+  '/:id',
+  auth.isAuthenticated,
+  artisansController.deleteArtisan
+);
 
 module.exports = router;

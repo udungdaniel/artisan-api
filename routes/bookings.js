@@ -1,8 +1,16 @@
 const express = require('express');
+const auth = require('../middleware/authenticate');
 
 const router = express.Router();
 
 const bookingsController = require('../controllers/bookings');
+
+/**
+ * @swagger
+ * tags:
+ *   name: Bookings
+ *   description: Booking management routes
+ */
 
 /**
  * @swagger
@@ -31,6 +39,8 @@ router.get('/', bookingsController.getAll);
  *     responses:
  *       200:
  *         description: Success
+ *       404:
+ *         description: Booking not found
  */
 router.get('/:id', bookingsController.getSingle);
 
@@ -40,6 +50,8 @@ router.get('/:id', bookingsController.getSingle);
  *   post:
  *     summary: Create booking
  *     tags: [Bookings]
+ *     security:
+ *       - oauth2: []
  *     requestBody:
  *       required: true
  *       content:
@@ -66,8 +78,16 @@ router.get('/:id', bookingsController.getSingle);
  *     responses:
  *       201:
  *         description: Booking created successfully
+ *       400:
+ *         description: Validation failed
+ *       401:
+ *         description: Unauthorized
  */
-router.post('/', bookingsController.createBooking);
+router.post(
+  '/',
+  auth.isAuthenticated,
+  bookingsController.createBooking
+);
 
 /**
  * @swagger
@@ -75,6 +95,8 @@ router.post('/', bookingsController.createBooking);
  *   put:
  *     summary: Update booking
  *     tags: [Bookings]
+ *     security:
+ *       - oauth2: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -107,8 +129,16 @@ router.post('/', bookingsController.createBooking);
  *     responses:
  *       204:
  *         description: Booking updated successfully
+ *       400:
+ *         description: Validation failed
+ *       401:
+ *         description: Unauthorized
  */
-router.put('/:id', bookingsController.updateBooking);
+router.put(
+  '/:id',
+  auth.isAuthenticated,
+  bookingsController.updateBooking
+);
 
 /**
  * @swagger
@@ -116,6 +146,8 @@ router.put('/:id', bookingsController.updateBooking);
  *   delete:
  *     summary: Delete booking
  *     tags: [Bookings]
+ *     security:
+ *       - oauth2: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -124,8 +156,14 @@ router.put('/:id', bookingsController.updateBooking);
  *           type: string
  *     responses:
  *       200:
- *         description: Booking deleted
+ *         description: Booking deleted successfully
+ *       401:
+ *         description: Unauthorized
  */
-router.delete('/:id', bookingsController.deleteBooking);
+router.delete(
+  '/:id',
+  auth.isAuthenticated,
+  bookingsController.deleteBooking
+);
 
 module.exports = router;
