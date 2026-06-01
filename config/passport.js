@@ -7,7 +7,7 @@ passport.use(
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
 
-      // Must match the Callback URL configured in GitHub OAuth App
+      // Callback URL configured in GitHub OAuth App
       callbackURL: 'https://artisan-api-l6ei.onrender.com/github/callback'
     },
     (accessToken, refreshToken, profile, done) => {
